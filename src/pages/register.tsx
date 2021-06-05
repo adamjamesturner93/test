@@ -1,36 +1,42 @@
-import { Form, Input, Button, Checkbox, Row } from "antd";
 import { Layout, Steps } from "antd";
 import { AppLayout, RegisterForm } from "../components";
-import Link from "next/link";
+
 import {
   UserOutlined,
   SolutionOutlined,
-  LoadingOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 
 const { Step } = Steps;
-
-const layout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 12 },
-};
 const tailLayout = {
   wrapperCol: { offset: 6, span: 12 },
 };
 
 const Register: React.FC = () => {
   const [pageIndex, setPageIndex] = useState(0);
+  let formContent: React.ReactNode;
+  switch (pageIndex) {
+    case 0:
+      formContent = (
+        <RegisterForm callback={() => setPageIndex((index) => index + 1)} />
+      );
+      break;
+    case 1:
+      formContent = <h2>Next form {pageIndex} </h2>;
+      break;
+    case 2:
+      formContent = <h2>Next form {pageIndex} </h2>;
+      break;
+    case 3:
+      formContent = <h2>Next form {pageIndex} </h2>;
+      break;
+  }
 
   return (
     <AppLayout>
-      <Layout {...tailLayout} style={{ justifyContent: "center" }}>
-        <RegisterForm
-          onClick={() => setPageIndex((index) => index + 1)}
-          buttonLabel="Next"
-          buttonType="button"
-        />
+      <Layout>
+        <Layout style={{ justifyContent: "center" }}>{formContent}</Layout>
         <Steps
           type="navigation"
           {...tailLayout}

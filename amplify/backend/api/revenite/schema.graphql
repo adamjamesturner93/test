@@ -1,0 +1,114 @@
+type User @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  email: String!
+  name: String!
+  preferred_username: String!
+  gender: String
+  ethnicity: String
+  dateOfBirth: String
+  militaryService: String
+  weight: Float
+  weightUnits: String
+  height: Float
+  heightUnits: String
+  researchConsent: Boolean
+}
+
+type Amputation @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  limb: String!
+  level: String!
+  prosthesisWorn: Boolean!
+  hand: String
+  elbow: String
+  foot: String
+  ankle: String
+  knee: String
+  socket: String
+  limbChecks: [limbCheck] @connection(keyName: "byAmputationId", fields: ["id"])
+}
+
+type Injury @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  location: String!
+  severity: String!
+  chronic: Boolean!
+}
+
+type HealthCheck @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  bodyCheck: BodyCheck
+  limbChecks: [limbCheck]
+    @connection(keyName: "byHealthCheckId", fields: ["id"])
+}
+
+type Activity @model @auth(rules: [{ allow: owner }]) {
+  id: ID!
+  date: String!
+  activity: String!
+  duration: String!
+  distance: String
+  cardio: Boolean
+  flexibility: Boolean
+  strength: Boolean
+  workoutDetails: String!
+  perceivedExertion: Int!
+}
+
+type BodyCheck {
+  good: Boolean!
+  achy: Boolean!
+  tired: Boolean!
+  sore: Boolean!
+  stiff: Boolean!
+  other: Boolean!
+  details: String!
+  otherComments: String!
+}
+
+type limbCheck
+  @model
+  @auth(rules: [{ allow: owner }])
+  @key(
+    name: "byHealthCheckId"
+    fields: ["healthCheckId"]
+    queryField: "limbCheckByHealthCheckId"
+  )
+  @key(
+    name: "byAmputationId"
+    fields: ["amputationId"]
+    queryField: "limbCheckByAmputationId"
+  ) {
+  id: ID!
+  amputationId: ID!
+  healthCheckId: ID
+  healthCheck: HealthCheck @connection(fields: ["healthCheckId"])
+  residuum: ResiduumCheck!
+  socket: SocketCheck
+}
+
+type ResiduumCheck {
+  good: Boolean!
+  sore: Boolean!
+  painful: Boolean!
+  red: Boolean!
+  blistered: Boolean!
+  bleeding: Boolean!
+  bruised: Boolean!
+  sweaty: Boolean!
+  other: Boolean!
+  details: String!
+  otherComments: String!
+}
+
+type SocketCheck {
+  comfortScore: Int!
+  tight: Boolean
+  loose: Boolean
+  painful: Boolean
+  uncomfortable: Boolean
+  hot: Boolean
+  other: Boolean
+  details: String
+  otherComments: String
+}

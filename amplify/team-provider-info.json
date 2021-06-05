@@ -1,0 +1,26 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-revenite-dev-112825-authRole",
+            "UnauthRoleArn": "arn:aws:iam::889376483985:role/amplify-revenite-dev-112825-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::889376483985:role/amplify-revenite-dev-112825-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-revenite-dev-112825-deployment",
+            "UnauthRoleName": "amplify-revenite-dev-112825-unauthRole",
+            "StackName": "amplify-revenite-dev-112825",
+            "StackId": "arn:aws:cloudformation:eu-west-1:889376483985:stack/amplify-revenite-dev-112825/c4733060-c5e8-11eb-b047-0a353cf8aabd",
+            "AmplifyAppId": "d1rm70mja4dr5u"
+        },
+        "categories": {
+            "auth": {
+                "revenite7036a3c3": {}
+            },
+            "hosting": {
+                "amplifyhosting": {
+                    "appId": "d1rm70mja4dr5u",
+                    "type": "cicd"
+                }
+            }
+        }
+    }
+}

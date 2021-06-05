@@ -2,14 +2,18 @@ import { Form, Input, Button, Checkbox, Layout } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { AppLayout } from "../components";
 import Link from "next/link";
+import { Auth } from "aws-amplify";
+import { useAuth } from "../hooks";
 
 const layout = {
   wrapperCol: { offset: 6, span: 12 },
 };
 
 const SignIn: React.FC = () => {
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const { signIn } = useAuth();
+  const onFinish = async (values: { email: string; password: string }) => {
+    const { email, password } = values;
+    await signIn(email, password);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -27,12 +31,12 @@ const SignIn: React.FC = () => {
           onFinishFailed={onFinishFailed}
         >
           <Form.Item
-            name="username"
-            rules={[{ required: true, message: "Please input your Username!" }]}
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
+              placeholder="Email"
             />
           </Form.Item>
           <Form.Item

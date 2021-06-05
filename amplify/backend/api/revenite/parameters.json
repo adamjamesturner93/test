@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "revenite",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authrevenite7036a3c3",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

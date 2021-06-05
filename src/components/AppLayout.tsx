@@ -1,31 +1,37 @@
 import "antd/dist/antd.css";
-import { Layout, Menu } from "antd";
+import { useState } from "react";
+
+import { UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { UserOutlined } from "@ant-design/icons";
+import { Layout, Menu, Button } from "antd";
+import { useAuth } from "../hooks";
 
-const routes = [
+const AUTH_ROUTES = [{ key: "/", label: "Home", icon: <UserOutlined /> }];
+const UNAUTH_ROUTES = [
   { key: "/", label: "Home", icon: <UserOutlined /> },
   { key: "/register", label: "Register", icon: <UserOutlined /> },
-
   { key: "/sign-in", label: "Sign In", icon: <UserOutlined /> },
 ];
 
 const AppLayout: React.FC = ({ children }) => {
   const { Sider, Content, Footer } = Layout;
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { user, signOut } = useAuth();
 
   const { pathname } = useRouter();
+
+  const routes = user ? AUTH_ROUTES : UNAUTH_ROUTES;
 
   return (
     <Layout hasSider>
       <Sider
+        collapsible
+        collapsed={isCollapsed}
+        onCollapse={setIsCollapsed}
         breakpoint="lg"
-        collapsedWidth="0"
         onBreakpoint={(broken) => {
           console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
         }}
       >
         <div className="logo" />
@@ -37,11 +43,21 @@ const AppLayout: React.FC = ({ children }) => {
               </Link>
             </Menu.Item>
           ))}
+          {user && (
+            <Menu.Item onClick={signOut} key="/sign-out">
+              <Link href="/">
+                <a>Signout</a>
+              </Link>
+            </Menu.Item>
+          )}
         </Menu>
       </Sider>
       <Layout>
+        {user ? <h2>{user.username}</h2> : <h2>Not registered</h2>}
         <Content>{children}</Content>
-        <Footer>&copy;2021 by Adam Turner, for Imperial College London</Footer>
+        <Footer style={{ textAlign: "center" }}>
+          &copy;2021 by Adam Turner, for Imperial College London
+        </Footer>
       </Layout>
     </Layout>
   );
